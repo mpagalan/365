@@ -1,6 +1,7 @@
 class Admin::PagesController < ApplicationController
 
   def index
+    @pages = Page.find(:all)
   end
 
   def new
@@ -23,4 +24,15 @@ class Admin::PagesController < ApplicationController
     redirect_to admin_pages_path
   end
 
+  def update
+    @page = Page.find(params[:id])
+    if @page.update_attributes(params[:page])
+      redirect_to admin_page_path(@page)
+    else
+      render :action => :edit
+    end
+  rescue ActiveRecord::RecordNotFound
+    flash[:error] = "Page with id #{params[:id]} could not be found"
+    redirect_to admin_pages_path
+  end
 end

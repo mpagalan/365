@@ -49,6 +49,34 @@ describe "Admin::PagesController in general", :shared => true do
 
 end
 
+describe Admin::PagesController, "on view pages" do
+  it_should_behave_like "Admin::PagesController in general"
+
+  before(:each) do
+    Page.stub!(:find).with(:all).and_return([@mock_page])
+  end
+
+  def do_request
+    get :index
+  end
+
+  it "should find all pages" do
+    do_request
+    assigns[:pages].should == [@mock_page]
+  end
+
+  it "should render the pages list" do
+    do_request
+    response.should render_template('admin/pages/index')
+  end
+
+  it "should be succesfull" do
+    do_request
+    response.should be_success
+  end
+
+end
+
 describe Admin::PagesController, "on new page" do
   it_should_behave_like "Admin::PagesController in general"
 
@@ -140,5 +168,55 @@ describe Admin::PagesController, "on page edit" do
       flash[:error].should =~ /could not be found/
     end
   end
+end
 
+describe Admin::PagesController, "on page update" do
+  it_should_behave_like "Admin::PagesController in general"
+  
+  before(:each) do
+    @params = {:page => {:title => "sunset", :published_on => 2.days.ago, :image => image} , :id => "7"}
+    Page.stub!(:find).with("7").and_return(@mock_page)
+    @mock_page.stub!(:update_attributes).and_return(true)
+  end
+
+  def do_request
+    get :update, @params
+  end
+
+  it "should find the page for updating" do
+    do_request
+    assigns[:page].should_not be_nil
+  end
+
+  it "should update the page and redirect to show page" do
+    do_request
+    response.should redirect_to(admin_page_path(@mock_page))
+  end
+
+  describe "when record not found" do
+    before(:each) do
+      Page.stub!(:find).with("7").and_raise(ActiveRecord::RecordNotFound)
+    end
+
+    it "should redirect to admin pages" do
+      do_request
+      response.should redirect_to admin_pages_path
+    end
+
+    it "should flash error" do
+      do_request
+      flash[:error].should =~ /could not be found/
+    end
+  end
+
+  describe "when update is not successful" do
+    before(:each) do
+      @mock_page.stub!(:update_attributes).and_return(false)
+    end
+  
+    it "should render the edit page form" do
+      do_request
+      response.should render_template('admin/pages/edit')
+    end
+  end
 end
