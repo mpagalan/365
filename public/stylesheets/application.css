@@ -1,6 +1,6 @@
 * { margin: 0; padding: 0;}
 
-body { color: #fff; font-size: 11px; font-family: Helvetica Neue, Arial, sans-serif; overflow: hidden; background: #000;}
+body { color: #fff; font-size: 11px; font-family:"lucida grande",tahoma,verdana,arial,sans-serif; overflow: hidden; background: #000;}
 
 #mainContainer { overflow: hidden; visibility: hidden;}
 div#navigation { position: absolute; top: 10px; left: 10px; }
