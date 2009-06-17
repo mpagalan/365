@@ -15,3 +15,21 @@ config.action_controller.perform_caching             = false
 
 # Don't care if the mailer can't send
 config.action_mailer.raise_delivery_errors = false
+
+class ActiveRecord::Base
+  def self.dump_schema
+    puts "== Schema Information"
+    puts "Table name: #{self.table_name}"
+    puts ""
+    self.columns.each do |col|
+      b = col.name.strip.size
+      c = "#{col.name} #{' '*(30-b)} :#{col.type} "
+      if col.default
+        c << "(default=#{col.default})"
+      end
+
+      puts c
+    end
+    nil
+  end
+end
