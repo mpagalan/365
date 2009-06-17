@@ -3,3 +3,4 @@ config/database.yml
 *.swp
 log
 tmp
+public/pages
