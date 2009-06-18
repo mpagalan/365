@@ -1,4 +1,5 @@
 class Admin::PagesController < ApplicationController
+  layout "admin"
 
   def index
     @pages = Page.find(:all)

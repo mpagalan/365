@@ -1,0 +1,23 @@
+<div class="box">
+  <h1>Pages</h1>
+  <table>
+    <thead>
+    <tr>
+      <th>Title</th>
+      <th>Date</th>
+      <th>Description</th>
+      <th>Image Credits</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @pages.each do |page| %>
+    <tr>
+      <td><%= h(page.title)%>/td>
+      <td><%= h(page.published_on)%></td>
+      <td><%= h(escape_javascrip(page.description))%></td>
+      <td><%= h(page.image_credits)%>/td>
+    </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

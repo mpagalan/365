@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <!--[if gte IE 7]><meta http-equiv="X-UA-Compatible" content="IE=7"/><![endif]-->
+  <title><%= page_title -%></title>
+
+  <%= stylesheet_link_tag "admin", "ui.datepicker", "960/reset", "960/text", "960/grid", "960/layout"  %>
+  <%= javascript_include_tag "jquery-1.3.2.min", "jquery-ui-1.7.2.custom_datepicker.min" %>
+  <!--[if IE 6]><link rel="stylesheet" type="text/css" href="/css/960/ie6.css" media="screen" /><![endif]-->
+  <!--[if gte IE 7]><link rel="stylesheet" type="text/css" href="/css/960/ie.css" media="screen" /><![endif]-->
+  <%= yield :css %>
+  <%= yield :js %>
+
+</head>
+  <body>
+    <div id="main_container" class="container_12">
+    <%= yield %>
+    </div>
+  </body>
+</head>
