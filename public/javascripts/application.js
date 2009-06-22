@@ -59,3 +59,20 @@ function mainScroller(scrollable){
     this.move("down", has_effects);
   }
 }
+
+// this is for collapse/expand links
+(function($) {
+  $.fn.link_to_colex = function(selector, options) {
+    var settings = $.extend($.fn.link_to_colex.default_options, options, {});
+    $(this).addClass(settings.colex_class)
+           .removeClass(settings.excol_class)
+           .click(function() {
+               $(selector).slideToggle();
+               $(this).toggleClass(settings.colex_class)
+                      .toggleClass(settings.excol_class);
+               return false;
+            });
+  };
+
+  $.fn.link_to_colex.default_options = { excol_class: 'excol', colex_class: 'colex' }
+})(jQuery);

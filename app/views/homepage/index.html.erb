@@ -1,7 +1,27 @@
 <div id="navigation">
-  <span onclick="imageScroller.moveUp(false)">Up</span>
-  <span onclick="imageScroller.moveDown(false)">Down</span>
-  <div type="text" id="datepicker"></div>
+  <a class="uiIcons navUp" onclick="imageScroller.moveUp(false)" title="view next image"><span>Up</span></a>
+  <a class="uiIcons navDown" onclick="imageScroller.moveDown(false)" title="view previous image"><span>Do</span></a>
+  <a>365 a daily image + music haiku </a>
+  <div class="centerize calendar">
+    <div class="centerize" id="datepicker"></div>
+  </div>
+  <a id="calender_colex" class="uiIcons colex" title="collapse/expand calendar navigation"><span>c/x</span></a>
+</div>
+
+<div class="post">
+  <h2>365</h2>
+  <div class="haiku">
+    <p><i>Image</i> (from Latin imago) is an artifact,
+        or has to do with a two-dimensional (a picture),
+        that has a similar appearance to some subject—usually a physical object or a person.</p>
+    <br/>
+    <p><i>Music</i> is an art form whose medium is sound organized in time</p>
+  </div>
+  <div class="credits">
+    <p>Image by:</p>
+    <p>Shot taken in</p>
+    <p>Misic by:</p>
+  </div>
 </div>
 <% @pages.each do |page| %>
   <div  class="fullimage">
@@ -11,7 +31,7 @@
 
 <% if @pages.empty? %>
   <div id="image-1" class="fullimage">
-    <img class="bg" src="images/1.jpg" >
+    <img class="bg" src="images/365.jpg" >
   </div>
 <% end %>
 
@@ -28,5 +48,6 @@
     refigure();
     imageScroller.move();
   });
-
+  
+  $('#calender_colex').link_to_colex("#datepicker");
 <% end %>
