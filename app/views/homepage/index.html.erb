@@ -3,17 +3,17 @@
   <span onclick="imageScroller.moveDown(false)">Down</span>
   <div type="text" id="datepicker"></div>
 </div>
+<% @pages.each do |page| %>
+  <div  class="fullimage">
+    <%= image_tag page.image.url, :class => "bg" %>
+  </div>
+<% end %>
 
-<div id="image-1" class="fullimage">
-  <img class="bg" src="images/1.jpg" >
-</div>
-<div id="image-2" class="fullimage">
-  <img class="bg" src="images/2.jpg" >
-</div>
-<div id="image-3" class="fullimage">
-  <img class="bg" src="images/3.jpg" >
-</div>
-
+<% if @pages.empty? %>
+  <div id="image-1" class="fullimage">
+    <img class="bg" src="images/1.jpg" >
+  </div>
+<% end %>
 
 <% javascript_tag do %>
   var imageScroller = new mainScroller($('#mainContainer'));

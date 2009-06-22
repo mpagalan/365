@@ -48,13 +48,20 @@ Spec::Runner.configure do |config|
   def debug_response(*objects)
     $stderr.puts "BODY: #{response.body}"
     $stderr.puts "FLASH: #{flash.inspect}"
-    $stderr.puts "ERRORS: " if !objects.empty?
-    objects.each do |object|
-      object = assigns[object] if object.kind_of?(Symbol)
-      $stderr.puts "#{object.inspect} -> #{object.errors.full_messages.inspect}"
-    end
+    debug_objects(objects)
   end
 
+  def debug_objects(*objects)
+    $stderr.puts "ERRORS: " if !objects.empty?
+    Array.new(objects).flatten.each do |object|
+      object = assigns[object] if object.kind_of?(Symbol)
+      $stderr.puts "#{object.inspect} -> #{object.errors.inspect}"
+    end
+  end
+  
+  def do_request
+    raise NotImplementedError
+  end
 end
 
 module ImageHelper

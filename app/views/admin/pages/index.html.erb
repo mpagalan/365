@@ -1,5 +1,12 @@
-<div class="box">
-  <h1>Pages</h1>
+<%= render :partial => 'admin/shared/main_nav' %>
+<div class="grid_6 prefix_10">
+  <ul class="main-nav">
+    <li class="secondary"><%= link_to "Add New Page", new_admin_page_path %></li>
+  </ul>
+</div>
+<div class="clear"></div>
+<div class="grid_12">
+
   <table>
     <thead>
     <tr>
@@ -10,12 +17,17 @@
     </tr>
     </thead>
     <tbody>
+    <% if @pages.empty? %>
+    <tr>
+      <td colspan="4">No page yet</td>
+    </tr>
+    <% end %>
     <% @pages.each do |page| %>
     <tr>
-      <td><%= h(page.title)%>/td>
-      <td><%= h(page.published_on)%></td>
-      <td><%= h(escape_javascrip(page.description))%></td>
-      <td><%= h(page.image_credits)%>/td>
+      <td><%= h(page.title) %></td>
+      <td><%= format_date(page.published_on) %></td>
+      <td><%= h(escape_javascript(page.description)) %></td>
+      <td><%= h(page.image_credits) %></td>
     </tr>
     <% end %>
     </tbody>

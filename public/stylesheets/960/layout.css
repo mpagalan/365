@@ -324,6 +324,10 @@ fieldset p label {
 fieldset p input {
 	width:98%;
 }
+fieldset p textarea {
+  width:98%;
+  height:60%;
+}
 fieldset p select {
 	width:99%;
 }
@@ -469,52 +473,3 @@ input.search.button {
 }
 
 
-/* Mootools Kwicks
------------------------------------------------ */
-#kwick-box { 
-	padding:0;
-	overflow:hidden;
-}
-#kwick-box h2 { 
-	margin:0;
-}
-#kwick {
-	position: relative;
-}
-#kwick .kwicks {
-	display: block;
-	background: #999;
-	height: 120px;
-	list-style:none;
-	margin:0;
-	overflow:hidden;
-}
-#kwick li {
-	float: left;
-	margin:0;
-	padding:0;
-}
-#kwick .kwick {
-	display: block;
-	cursor: pointer;
-	overflow: hidden;
-	height: 100px;
-	width: 215px;
-	padding: 10px;
-	background: #fff;
-}
-#kwick .kwick span {
-	color:#fff;
-}
-#kwick .one {
-	background: #666;
-}
-#kwick .two {
-	background: #777;
-}
-#kwick .three {
-	background: #888;
-}
-#kwick .four {
-	background: #999;
-}

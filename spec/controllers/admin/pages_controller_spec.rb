@@ -43,10 +43,6 @@ describe "Admin::PagesController in general", :shared => true do
     @params = {}
   end
 
-  def do_request
-    raise NotImplementedError
-  end
-
 end
 
 describe Admin::PagesController, "on view pages" do

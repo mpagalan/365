@@ -1,9 +1,36 @@
 * { margin: 0; padding: 0;}
-
-body { color: #fff; font-size: 11px; font-family:"lucida grande",tahoma,verdana,arial,sans-serif; overflow: hidden; background: #000;}
-
+body { 
+  color: #fff;
+  font-size: 11px;
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  overflow: hidden;
+  background: #000;
+}
 #mainContainer { overflow: hidden; visibility: hidden;}
 div#navigation { position: absolute; top: 10px; left: 10px; }
-div#navigation span { cursor: pointer; text-decoration: underline; color: white; }
+div#navigation span {
+  cursor: pointer;
+  text-decoration: underline;
+  color: white;
+}
 .fullimage  { float: left }
-.bg {left: 0; top: 0; width: 100%; z-index: 5000;}
+.bg {
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 5000;
+}
+.post {
+  -moz-border-radius-bottomleft:5px;
+  -moz-border-radius-bottomright:5px;
+  -moz-border-radius-topleft:5px;
+  -moz-border-radius-topright:5px;
+  background:#000000 none repeat scroll 0 0;
+  bottom:50px;
+  right:50px;
+  opacity:0.5;
+  padding:15px 20px 20px;
+  position:absolute;
+  width:410px;
+  z-index:6000;
+}

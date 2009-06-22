@@ -1,10 +1,19 @@
 class Page < ActiveRecord::Base
+  #-----------------------------------------------------
+  # named scopes
+  # ----------------------------------------------------
+  named_scope :latest, :order => "published_on DESC", :limit => 5
   # ----------------------------------------------------
   # plugins
   # ----------------------------------------------------
-  has_attached_file :image, :styles => { :fullimage => "1024x677>", :thumb => "150x150#"},
+  has_attached_file :image, :styles => {
+                              :fullimage => "x1024",
+                              :thumb => "150x150>"
+                            },
+                            :whiny_thumbnails => true,
                             :default_style => :fullimage,
-                            :path => ":rails_root/public/:class/:attachment/:id/:style_:basename.:extension"
+                            :path => ":rails_root/public/:rails_env/:class/:attachment/:id/:style_:basename.:extension",
+                            :url => "/:rails_env/:class/:attachment/:id/:style_:basename.:extension"
   # ----------------------------------------------------
   # validations
   # ----------------------------------------------------
