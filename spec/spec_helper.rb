@@ -78,3 +78,9 @@ module ImageHelper
   end
   
 end
+
+module MusicHelper
+  def music
+    File.new(File.join(RAILS_ROOT,"spec", "fixtures","good.mp3"), 'rb')
+  end
+end

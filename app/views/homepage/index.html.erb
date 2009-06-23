@@ -22,6 +22,15 @@
     <p>Shot taken in</p>
     <p>Misic by:</p>
   </div>
+  <div id="audioPlayer" class="audioPlayer">
+    <object type="application/x-shockwave-flash" data="player.swf" id="audioplayer1" height="24" width="290">
+      <param name="movie" value="player.swf">
+      <param name="FlashVars" value="playerID=1&amp;bg=#FFFFFF&amp;loop=yes&amp;soundFile=/converted_good.mp3">
+      <param name="quality" value="high">
+      <param name="menu" value="false">
+      <param name="wmode" value="transparent">
+    </object> 
+  </div>
 </div>
 <% @pages.each do |page| %>
   <div  class="fullimage">

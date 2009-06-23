@@ -6,6 +6,9 @@ body {
   overflow: hidden;
   background: #000;
 }
+object {
+  outline-style: none;
+}
 .centerize{
   margin-left:auto !important;
   margin-right:auto !important;
@@ -47,6 +50,17 @@ body {
 }
 .calendar {
   width: 200px;
+}
+.audioPlayer {
+  background-color:#000000;
+  background-image:none;
+  background-repeat:repeat;
+  min-width:50px;
+  padding-bottom:2px;
+  padding-left:2px;
+  padding-right:2px;
+  padding-top:2px;
+  min-width:50px;
 }
 
 /* navigational links */

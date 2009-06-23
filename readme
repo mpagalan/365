@@ -1,0 +1,7 @@
+FFMPEG Installation:
+ * http://jimneath.org/2008/06/02/converting-videos-with-rails-installing-ffmpeg/
+ * (Ubuntu jaunty quirk) http://webupd8.blogspot.com/2009/05/download-fixed-ffmpeg-packages-for.html
+
+Audio Player
+ - an mp3 player for browser
+ * http://www.macloo.com/examples/audio_player/

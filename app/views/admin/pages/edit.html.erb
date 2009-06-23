@@ -1,0 +1,12 @@
+<%= render :partial => 'admin/shared/main_nav' %>
+<div class="grid_8 prefix_2">
+  <div class="box">
+    <% form_for :page, :url => {:action => "update"}, :html => {:multipart => true} do |f| %>
+      <%= f.error_messages %>
+      
+      <%= render :partial => 'form' %>
+      <%= submit_tag "Submit" %>
+    <% end %>
+  </div>
+</div>
+
