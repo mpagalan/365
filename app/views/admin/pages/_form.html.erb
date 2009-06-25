@@ -25,13 +25,22 @@
   </p>
   <p>
     <%= f.label :image_taken_in, "Taken in" %>
-    <%= f.text_field :image_credits %>
+    <%= f.text_field :image_taken_in %>
   </p>
 </fieldset>
 <fieldset>
   <legend>Music Information</legend>
+  <p>
+    <%= f.label :music, "Music" %>
+    <%= f.file_field :music %>
+  </p>
+  <p>
+    <%= f.label :music_credits, "Music by" %>
+    <%= f.text_field :music_credits %>
+  </p>
 </fieldset>
 
 <% content_for :js_script do %>
   $('.is-datepicker').datepicker();
+  $('#page_description').wysiwyg();
 <% end %>

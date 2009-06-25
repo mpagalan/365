@@ -216,3 +216,41 @@ describe Admin::PagesController, "on page update" do
     end
   end
 end
+
+describe Admin::PagesController, "on page show" do
+  it_should_behave_like "Admin::PagesController in general"
+
+  before(:each) do
+    Page.stub!(:find).with("7").and_return(@mock_page)
+  end
+
+  def do_request
+    get :show, :id => "7"
+  end
+
+  it "should find the page" do
+    do_request
+    assigns[:page].should_not be_nil
+  end
+
+  it "should render the show page template" do
+    do_request
+    response.should render_template('admin/pages/show')
+  end
+
+  describe "when page record is not found" do
+    before(:each) do
+      Page.stub!(:find).with("7").and_raise(ActiveRecord::RecordNotFound)
+    end
+
+    it "should redirect to admin pages" do
+      do_request
+      response.should redirect_to admin_pages_path
+    end
+
+    it "should flash error saying 'page could not be found'" do
+      do_request
+      flash[:error].should =~ /could not be found/
+    end
+  end
+end

@@ -36,4 +36,11 @@ class Admin::PagesController < ApplicationController
     flash[:error] = "Page with id #{params[:id]} could not be found"
     redirect_to admin_pages_path
   end
+
+  def show
+    @page = Page.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    flash[:error] = "Page with id #{params[:id]} could not be found"
+    redirect_to admin_pages_path
+  end
 end
