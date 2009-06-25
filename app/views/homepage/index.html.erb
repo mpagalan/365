@@ -1,48 +1,59 @@
 <div id="navigation">
   <a class="uiIcons navUp" onclick="imageScroller.moveUp(false)" title="view next image"><span>Up</span></a>
   <a class="uiIcons navDown" onclick="imageScroller.moveDown(false)" title="view previous image"><span>Do</span></a>
-  <a>365 a daily image + music haiku </a>
+  <a onclick="imageScroller.showDefault(false)" >365 a daily image + music haiku </a>
   <div class="centerize calendar">
     <div class="centerize" id="datepicker"></div>
   </div>
-  <a id="calender_colex" class="uiIcons colex" title="collapse/expand calendar navigation"><span>c/x</span></a>
+  <ul class="clearfix">
+    <li class="colR"><a id="calendar_colex" class="uiIcons colex" title="collapse/expand calendar navigation"><span>c/x</span></a></li>
+  </ul>
 </div>
 
 <div class="post">
-  <h2>365</h2>
-  <div class="haiku">
+  <ul class="clearfix" >
+    <li class="colL"><h2 class="pagePublishedOn">June 11, 2009</h2></li>
+    <li class="colR"><a id="haiku_colex" class="uiIcons excol" title="collapse/expand the haiku" ><span>c/x</span></a></li>
+  </ul>
+  <h2 class="pageTitle">365</h2>
+  <div class="innerPost">
+    <div class="haiku">
+    </div>
+    <div class="credits">
+    </div>
+    <div id="audioPlayer" class="audioPlayer">
+      <div id="audioPlayerContainer">
+      </div>
+   </div>
+  </div>
+</div>
+<% @pages.each do |page| %>
+  <div id="page_image_<%= page.id %>" class="fullimage" data-mp3="<%= page.music.url %>" data-title="<%= page.title %>" data-published-on="<%= format_date(page.published_on) %>">
+    <%= image_tag page.image.url, :class => "bg" %>
+    <div class="hidden haiku"><p><%= page.description %></p></div>
+    <div class="hidden credits post">
+      <p>Image by: <%= page.image_credits%></p>
+      <p>Shot taken in <%= page.image_taken_in%></p>
+      <p>Misic by: <%= page.music_credits%></p>
+    </div>
+  </div>
+<% end %>
+
+<div id="default_image" class="fullimage <%= @pages.empty? ? "" : "hidden"  %>" data-mp3="/converted_good.mp3" data-title="365" data-published-on="June 11, 2009">
+  <img class="bg" src="images/365.jpg" >
+  <div class="hidden haiku">
     <p><i>Image</i> (from Latin imago) is an artifact,
         or has to do with a two-dimensional (a picture),
         that has a similar appearance to some subject—usually a physical object or a person.</p>
     <br/>
     <p><i>Music</i> is an art form whose medium is sound organized in time</p>
   </div>
-  <div class="credits">
+  <div class="hidden credits post">
     <p>Image by:</p>
     <p>Shot taken in</p>
     <p>Misic by:</p>
   </div>
-  <div id="audioPlayer" class="audioPlayer">
-    <object type="application/x-shockwave-flash" data="player.swf" id="audioplayer1" height="24" width="290">
-      <param name="movie" value="player.swf">
-      <param name="FlashVars" value="playerID=1&amp;bg=#FFFFFF&amp;loop=yes&amp;soundFile=/converted_good.mp3">
-      <param name="quality" value="high">
-      <param name="menu" value="false">
-      <param name="wmode" value="transparent">
-    </object> 
-  </div>
 </div>
-<% @pages.each do |page| %>
-  <div  class="fullimage">
-    <%= image_tag page.image.url, :class => "bg" %>
-  </div>
-<% end %>
-
-<% if @pages.empty? %>
-  <div id="image-1" class="fullimage">
-    <img class="bg" src="images/365.jpg" >
-  </div>
-<% end %>
 
 <% javascript_tag do %>
   var imageScroller = new mainScroller($('#mainContainer'));
@@ -58,5 +69,7 @@
     imageScroller.move();
   });
   
-  $('#calender_colex').link_to_colex("#datepicker");
+  $('#calendar_colex').link_to_colex("#datepicker");
+  $('#haiku_colex').link_to_colex(".haiku", {excol_class: "colex", colex_class: "excol" } );
+
 <% end %>

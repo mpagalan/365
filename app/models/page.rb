@@ -39,8 +39,9 @@ class Page < ActiveRecord::Base
   # ----------------------------------------------------
   validates_attachment_presence     :image
   validates_attachment_content_type :image, :content_type => "image/jpeg"
-  validates_attachment_content_type :music, :content_type => "application/x-mp3"
+  validates_attachment_content_type :music, :content_type => ["application/x-mp3", "audio/mpeg"]
   validates_presence_of             :title, :published_on
+  validates_uniqueness_of           :published_on
 
   # ---------------------------------------------------
   # callbacks
@@ -75,7 +76,7 @@ class Page < ActiveRecord::Base
         ffmpeg -i #{music.path} -ar 11025 -ab 32  -f mp3 -y #{converted_music_path}
       end_command
     else
-      command = "echo convertion"
+      command = "echo ok"
     end
     command.gsub!(/\s+/, " ")
   end
