@@ -5,9 +5,13 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe Page do
   include ImageHelper
   include MusicHelper
+  before(:each) do
+     Page.create(:title => "shot", :published_on => 20.day.ago, :image =>image)
+  end
 
   it { should validate_presence_of(:title) }
   it { should validate_presence_of(:published_on)}
+  it { should validate_uniqueness_of(:published_on)}
   
   it "should not create without any value" do
     Page.new.save.should be_false

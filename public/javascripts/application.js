@@ -17,8 +17,8 @@ function refigure() {
 // this is the main image scroller function
 function mainScroller(scrollable){
   this.scrollable = scrollable;
-  this.effects = { easing: 'easeInCirc', axis: 'y' };
-  this.effects_speed = 450;
+  this.effects = { easing: 'easeOutCirc', axis: 'y' };
+  this.effects_speed = 1000;
   this.moveUp = scrollerMoveUp;
   this.moveDown = scrollerMoveDown;
   this.move = scrollerMove;
@@ -54,7 +54,11 @@ function mainScroller(scrollable){
     }
     //console.log(current);
     //console.log(direction);
-    this.scrollable.scrollTo(current, this.effects_speed, this.effects);
+    if (has_effects == true ){
+      this.scrollable.scrollTo(current, this.effects_speed, this.effects);
+    }else{
+      this.scrollable.scrollTo(current);
+    }
     
     //if (direction && $("div.fullimage:not('#default_image')").length > 1) {
     if (direction) {
@@ -80,7 +84,7 @@ function mainScroller(scrollable){
     if (!this.$current.is('#default_image')){
       this.$previous = this.$current;
       this.$current = default_image.eq(0);
-      $(this.scrollable.selector).scrollTo(this.$current, 40, this.effects);
+      $(this.scrollable.selector).scrollTo(this.$current, this.effects_speed, this.effects);
       update_page_info(this.$current);
       this.haiku_div.show(this.effects_speed);
     }
@@ -91,16 +95,18 @@ function mainScroller(scrollable){
     soundFile         = current.attr("data-mp3");
     page_title        = current.attr("data-title");
     page_published_on = current.attr("data-published-on");
-    post = $('.post');
-    inner_post = $('.innerPost').hide();
-    haiku = $('.haiku', current).html();
-    credits = $('.credits', current).html();
+    post         = $('.post');
+    inner_post   = $('.innerPost').hide();
+    haiku        = $('.haiku', current).html();
+    credits      = $('.credits', current).html();
+    audio_player = $('.audioPlayer', current).html();
     post.find('.haiku').html(haiku);
     post.find('.credits').html(credits);
     post.find('.pageTitle').html(page_title);
     post.find('.pagePublishedOn').html(page_published_on);
-    inner_post.show(this.effects_speed);
-    setupAudioPlayer(soundFile);
+    inner_post.show(1000);
+    post.find('.audioPlayer').html(audio_player);
+    //    setupAudioPlayer(soundFile);
   }
   
   // this is private function for hidding the default image
@@ -114,15 +120,15 @@ function mainScroller(scrollable){
   function setupAudioPlayer(soundFile){
     var flashvars = {};
     flashvars.playerId = "1";
-    flashvars.bg = "#FFFFFF";
+    flashvars.bg = "#000000";
     flashvars.loop = "true";
     flashvars.soundFile = soundFile;
     var params = {};
     params.loop = "true";
     params.menu = "false";
     params.quality = "high";
-    params.wmode = "transparent";
-    params.bgcolor = "#FFFFFF"
+    params.wmode = "opaque";
+    params.bgcolor = "#000000"
     params.allowscriptaccess = "never";
     var attributes = {};
     attributes.id = "audioPlayerContainer";

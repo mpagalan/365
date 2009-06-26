@@ -2,6 +2,7 @@ class Page < ActiveRecord::Base
   #-----------------------------------------------------
   # named scopes
   # ----------------------------------------------------
+  default_scope :order => "published_on DESC"
   named_scope :latest, :order => "published_on DESC", :limit => 5
   # ----------------------------------------------------
   # plugins
@@ -51,6 +52,8 @@ class Page < ActiveRecord::Base
   # --------------------------------------------------
   # virtual attributes
   # --------------------------------------------------
+  cattr_reader :per_page
+  @@per_page = 5
   attr :converted_music_path
 
   def convert

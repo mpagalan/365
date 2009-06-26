@@ -1,10 +1,11 @@
 <div id="navigation">
-  <a class="uiIcons navUp" onclick="imageScroller.moveUp(false)" title="view next image"><span>Up</span></a>
-  <a class="uiIcons navDown" onclick="imageScroller.moveDown(false)" title="view previous image"><span>Do</span></a>
+  <a class="uiIcons navUp" onclick="imageScroller.moveUp(true)" title="view next image"><span>Up</span></a>
+  <a class="uiIcons navDown" onclick="imageScroller.moveDown(true)" title="view previous image"><span>Do</span></a>
   <a onclick="imageScroller.showDefault(false)" >365 a daily image + music haiku </a>
   <div class="centerize calendar">
     <div class="centerize" id="datepicker"></div>
   </div>
+  <%= will_paginate @pages%>
   <ul class="clearfix">
     <li class="colR"><a id="calendar_colex" class="uiIcons colex" title="collapse/expand calendar navigation"><span>c/x</span></a></li>
   </ul>
@@ -21,11 +22,11 @@
     </div>
     <div class="credits">
     </div>
+  </div>
     <div id="audioPlayer" class="audioPlayer">
       <div id="audioPlayerContainer">
       </div>
    </div>
-  </div>
 </div>
 <% @pages.each do |page| %>
   <div id="page_image_<%= page.id %>" class="fullimage" data-mp3="<%= page.music.url %>" data-title="<%= page.title %>" data-published-on="<%= format_date(page.published_on) %>">
@@ -35,6 +36,15 @@
       <p>Image by: <%= page.image_credits%></p>
       <p>Shot taken in <%= page.image_taken_in%></p>
       <p>Misic by: <%= page.music_credits%></p>
+    </div>
+    <div class="hidden audioPlayer">
+    <object type="application/x-shockwave-flash" data="/player.swf" id="audioplayer1" height="24" width="290">
+      <param name="movie" value="/player.swf">
+      <param name="FlashVars" value="playerID=<%= 1 %>&amp;bg=#000000&amp;loop=true&amp;soundFile=http:<%= page.music.url %>">
+      <param name="quality" value="high">
+      <param name="menu" value="false">
+      <param name="wmode" value="transparent">
+    </object> 
     </div>
   </div>
 <% end %>
