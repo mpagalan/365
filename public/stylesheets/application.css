@@ -8,10 +8,23 @@ body {
   font-size: 11px;
   font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
   overflow: hidden;
-  background: #000;
+  background: #fff;
 }
 object {
   outline-style: none;
+}
+
+#main_overlay {
+  background: #000000 none repeat scroll 0 0;
+  top: 0px;
+  right: 0px;
+  opacity: 0.7;
+  position: absolute;
+  z-index: 9000;
+}
+#main_overlay div {
+  margin-left:auto !important;
+  margin-right:auto !important;
 }
 
 /* =Headings

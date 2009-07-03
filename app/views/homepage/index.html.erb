@@ -5,7 +5,6 @@
   <div class="centerize calendar">
     <div class="centerize" id="datepicker"></div>
   </div>
-  <%= will_paginate @pages%>
   <ul class="clearfix">
     <li class="colR"><a id="calendar_colex" class="uiIcons colex" title="collapse/expand calendar navigation"><span>c/x</span></a></li>
   </ul>
@@ -28,26 +27,7 @@
       </div>
    </div>
 </div>
-<% @pages.each do |page| %>
-  <div id="page_image_<%= page.id %>" class="fullimage" data-mp3="<%= page.music.url %>" data-title="<%= page.title %>" data-published-on="<%= format_date(page.published_on) %>">
-    <%= image_tag page.image.url, :class => "bg" %>
-    <div class="hidden haiku"><p><%= page.description %></p></div>
-    <div class="hidden credits post">
-      <p>Image by: <%= page.image_credits%></p>
-      <p>Shot taken in <%= page.image_taken_in%></p>
-      <p>Misic by: <%= page.music_credits%></p>
-    </div>
-    <div class="hidden audioPlayer">
-    <object type="application/x-shockwave-flash" data="/player.swf" id="audioplayer1" height="24" width="290">
-      <param name="movie" value="/player.swf">
-      <param name="FlashVars" value="playerID=<%= 1 %>&amp;bg=#000000&amp;loop=true&amp;soundFile=http:<%= page.music.url %>">
-      <param name="quality" value="high">
-      <param name="menu" value="false">
-      <param name="wmode" value="transparent">
-    </object> 
-    </div>
-  </div>
-<% end %>
+<%= render :partial => 'pages_image', :locals => {:pages => @pages } %>
 
 <div id="default_image" class="fullimage <%= @pages.empty? ? "" : "hidden"  %>" data-mp3="/converted_good.mp3" data-title="365" data-published-on="June 11, 2009">
   <img class="bg" src="images/365.jpg" >
@@ -66,7 +46,7 @@
 </div>
 
 <% javascript_tag do %>
-  var imageScroller = new mainScroller($('#mainContainer'));
+  var imageScroller = new mainScroller($('#mainContainer'), <%= total_pages_of_page(@pages) %>, "<%= root_path %>");
   imageScroller.initialize();
 
   $(window).ready(function(){

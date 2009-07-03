@@ -17,5 +17,14 @@
     <div id="mainContainer">
     <%= yield %>
     </div>
+    <div id="main_overlay">
+      <!--
+      <div class="centerize"><img src="/images/ajax-loader.gif"</div>
+      -->
+    </div>
+    <script type="text/javascript">
+      // we show the loader by defualt
+      $.show_loader();
+    </script>
   </body>
 </head>
