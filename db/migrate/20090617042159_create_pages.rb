@@ -18,9 +18,12 @@ class CreatePages < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_index :pages, [:published_on, :title], :unique => true, :name => :by_published_on
   end
 
   def self.down
+    remove_index :pages, :name => :by_published_on
     drop_table :pages
   end
 end
