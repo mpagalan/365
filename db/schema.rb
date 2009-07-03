@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(:version => 20090701100306) do
     t.string  "name"
     t.string  "email"
     t.text    "description"
+    t.boolean "is_spam",     :default => false
   end
 
   create_table "pages", :force => true do |t|

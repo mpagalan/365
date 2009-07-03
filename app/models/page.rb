@@ -35,6 +35,14 @@ class Page < ActiveRecord::Base
   event :failed do
     transitions :from => :converting, :to => :error
   end
+  
+  # --------------------------------------------------
+  # virtual attributes
+  # --------------------------------------------------
+  cattr_reader :per_page
+  @@per_page = 5
+  attr :converted_music_path
+  
   # ----------------------------------------------------
   # validations
   # ----------------------------------------------------
@@ -49,12 +57,6 @@ class Page < ActiveRecord::Base
   # ---------------------------------------------------
   after_create :convert
 
-  # --------------------------------------------------
-  # virtual attributes
-  # --------------------------------------------------
-  cattr_reader :per_page
-  @@per_page = 5
-  attr :converted_music_path
 
   def convert
     return if music.original_filename.nil? || !music.valid?

@@ -4,6 +4,7 @@ class CreateComments < ActiveRecord::Migration
       t.integer :page_id
       t.string  :name, :email
       t.text    :description
+      t.boolean :is_spam,  :default => false
     end
   end
 

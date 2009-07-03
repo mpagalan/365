@@ -3,55 +3,50 @@
   <a class="uiIcons navDown" onclick="imageScroller.moveDown(true)" title="view previous image"><span>Do</span></a>
   <a onclick="imageScroller.showDefault(false)" >365 a daily image + music haiku </a>
   <div class="centerize calendar">
-    <div class="centerize" id="datepicker"></div>
   </div>
   <ul class="clearfix">
     <li class="colR"><a id="calendar_colex" class="uiIcons colex" title="collapse/expand calendar navigation"><span>c/x</span></a></li>
   </ul>
 </div>
 
-<div class="post">
-  <ul class="clearfix" >
-    <li class="colL"><h2 class="pagePublishedOn">June 11, 2009</h2></li>
-    <li class="colR"><a id="haiku_colex" class="uiIcons excol" title="collapse/expand the haiku" ><span>c/x</span></a></li>
-  </ul>
-  <h2 class="pageTitle">365</h2>
-  <div class="innerPost">
-    <div class="haiku">
-    </div>
-    <div class="credits">
-    </div>
-  </div>
-    <div id="audioPlayer" class="audioPlayer">
-      <div id="audioPlayerContainer">
-      </div>
-   </div>
-</div>
-<%= render :partial => 'pages_image', :locals => {:pages => @pages } %>
+<!-- Start of Pages -->
+<div id="pages">
+  <%= render :partial => 'pages_image', :locals => {:pages => @pages } %>
 
-<div id="default_image" class="fullimage <%= @pages.empty? ? "" : "hidden"  %>" data-mp3="/converted_good.mp3" data-title="365" data-published-on="June 11, 2009">
-  <img class="bg" src="images/365.jpg" >
-  <div class="hidden haiku">
-    <p><i>Image</i> (from Latin imago) is an artifact,
-        or has to do with a two-dimensional (a picture),
-        that has a similar appearance to some subject—usually a physical object or a person.</p>
-    <br/>
-    <p><i>Music</i> is an art form whose medium is sound organized in time</p>
-  </div>
-  <div class="hidden credits post">
-    <p>Image by:</p>
-    <p>Shot taken in</p>
-    <p>Misic by:</p>
+  <div id="default_image" class="fullimage <%= @pages.empty? ? "" : "hidden"  %>" data-mp3="/converted_good.mp3" data-title="365" data-published-on="June 11, 2009">
+    <img class="bg" src="images/365.jpg" >
+    
+    <div class="post">
+      <ul class="clearfix" >
+        <li class="colL"><h2 class="pagePublishedOn">June 11, 2009</h2></li>
+        <li class="colR"><a class="uiIcons excol haiku_colex" title="collapse/expand the haiku" ><span>c/x</span></a></li>
+      </ul>
+      <h2 class="pageTitle">365</h2>
+      <div class="innerPost">
+        <div class="haiku">
+          <p><i>Image</i> (from Latin imago) is an artifact,
+              or has to do with a two-dimensional (a picture),
+              that has a similar appearance to some subject—usually a physical object or a person.</p>
+          <br/>
+          <p><i>Music</i> is an art form whose medium is sound organized in time</p>
+        </div>
+        <div class="credits">
+          <p>Image by: </p>
+          <p>Shot taken in </p>
+          <p>Misic by: </p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+<!-- End of Pages -->
 
 <% javascript_tag do %>
-  var imageScroller = new mainScroller($('#mainContainer'), <%= total_pages_of_page(@pages) %>, "<%= root_path %>");
+  var imageScroller = new mainScroller($('#pages'), <%= total_pages_of_page(@pages) %>, "<%= root_path %>");
   imageScroller.initialize();
 
   $(window).ready(function(){
     refigure();
-    $('#datepicker').datepicker();
   });
 
   $(window).resize( function (){
@@ -60,6 +55,6 @@
   });
   
   $('#calendar_colex').link_to_colex("#datepicker");
-  $('#haiku_colex').link_to_colex(".haiku", {excol_class: "colex", colex_class: "excol" } );
+  $('.haiku_colex').link_to_colex(".haiku", {excol_class: "colex", colex_class: "excol" } );
 
 <% end %>

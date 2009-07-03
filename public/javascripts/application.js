@@ -3,13 +3,14 @@
   $.fn.link_to_colex = function(selector, options) {
     var settings = $.extend($.fn.link_to_colex.default_options, options, {});
     $(this).addClass(settings.colex_class)
-           .removeClass(settings.excol_class)
-           .click(function() {
-               $(selector).slideToggle(settings.toggle_speed);
-               $(this).toggleClass(settings.colex_class)
-                      .toggleClass(settings.excol_class);
-               return false;
-            });
+           .removeClass(settings.excol_class).each( function(i){
+              $(this).click( function() {
+                 $(selector).slideToggle(settings.toggle_speed);
+                 $(this).toggleClass(settings.colex_class)
+                        .toggleClass(settings.excol_class);
+                 return false;
+              });
+           });
   };
 
   $.fn.link_to_colex.default_options = { excol_class: 'excol', colex_class: 'colex',  toggle_speed: 450 }
@@ -55,7 +56,7 @@ function refigure() {
 
  $('div.fullimage img').css({'width': width , 'height': height });
  $('div.fullimage').css({'width': width , 'height': height });
- $('#mainContainer').css({'width': width, 'height': height});
+ $('#pages').css({'width': width, 'height': height});
 }
 
 
@@ -81,7 +82,6 @@ function mainScroller(scrollable, pages, url){
   function scrollerInitialize(){
     this.$current = $('div.fullimage:first').eq(0);
     this.$previous = this.$current;
-    update_page_info(this.$current);
   }
 
   function scrollerMove(direction, has_effects){
@@ -116,8 +116,6 @@ function mainScroller(scrollable, pages, url){
       if (direction) { //check if movement is directional if not we dont update the page metadata
         this.$previous = this.$current;
         this.$current = current;
-        update_page_info(this.$current);
-        this.haiku_div.show(this.effects_speed);
       }
     }
   }
@@ -138,28 +136,7 @@ function mainScroller(scrollable, pages, url){
       this.$previous = this.$current;
       this.$current = default_image.eq(0);
       $(this.scrollable.selector).scrollTo(this.$current, this.effects_speed, this.effects);
-      update_page_info(this.$current);
-      this.haiku_div.show(this.effects_speed);
     }
-  }
-  
-  // this is a private function for update the page information
-  function update_page_info(current) {
-    soundFile         = current.attr("data-mp3");
-    page_title        = current.attr("data-title");
-    page_published_on = current.attr("data-published-on");
-    post         = $('.post');
-    inner_post   = $('.innerPost').hide();
-    haiku        = $('.haiku', current).html();
-    credits      = $('.credits', current).html();
-    audio_player = $('.audioPlayer', current).html();
-    post.find('.haiku').html(haiku);
-    post.find('.credits').html(credits);
-    post.find('.pageTitle').html(page_title);
-    post.find('.pagePublishedOn').html(page_published_on);
-    inner_post.show(1000);
-    post.find('.audioPlayer').html(audio_player);
-    //    setupAudioPlayer(soundFile);
   }
   
   // this is private function for hidding the default image
@@ -167,25 +144,6 @@ function mainScroller(scrollable, pages, url){
     if (!current.is('#default_image')){
       $('#default_image').hide();
     }
-  }
-
-  // this is a private function for updating the audioPlayer on the page
-  function setupAudioPlayer(soundFile){
-    var flashvars = {};
-    flashvars.playerId = "1";
-    flashvars.bg = "#000000";
-    flashvars.loop = "true";
-    flashvars.soundFile = soundFile;
-    var params = {};
-    params.loop = "true";
-    params.menu = "false";
-    params.quality = "high";
-    params.wmode = "opaque";
-    params.bgcolor = "#000000"
-    params.allowscriptaccess = "never";
-    var attributes = {};
-    attributes.id = "audioPlayerContainer";
-    swfobject.embedSWF("player.swf", "audioPlayerContainer", "290", "24", "9.0.0", false, flashvars, params, attributes);
   }
 
   // private function for loading the next paged images
