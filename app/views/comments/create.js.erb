@@ -1,0 +1,10 @@
+$("#page_image_<%= current_page.id %> li.raveCount h3" ).html("Raves / <%= current_page.comments.count %>");
+$("#commentsForm_<%= current_page.dom_id %> > div.commentErrorDisplay").html("");
+$("#comments_container_<%= current_page.dom_id %> > div.comment:first" )
+  .before("<%= escape_javascript(render(:partial => 'pages/comment', :locals => {:comment => @comment})) %>");
+<% if current_page.comments.count <= 1 %>
+  $("#comments_container_<%= current_page.dom_id %> > div.comment:last" ).remove();
+<% end %>
+$("#commentsForm_<%= current_page.dom_id %>")[0].reset();
+$("#comments_container_<%= current_page.dom_id %>").show(900);
+

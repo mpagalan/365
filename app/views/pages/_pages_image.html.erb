@@ -1,0 +1,85 @@
+<% pages.each do |page| %>
+  <div id="page_image_<%= page.id %>" class="fullimage">
+
+    <%= image_tag page.image.url, :class => "bg" %>
+  <div class="comments">
+    <ul class="clearfix commentsToolbar">
+      <li class="colL raveCount"><h3>Raves / 0</h3></li>
+      <li class="colR clearfix"><a id="comments_colex_<%= page.id %>" rel="comments_container_<%= page.dom_id %>" class="uiIcons excol commentsExCol<%= params[:page]%>" title="collapse/expand comments"><span>c/x</span></a></li>
+      <li class="colR"><a id="addComments_<%= page.dom_id %>" class="addComments" onclick="toggleRaveForm('#addComments_<%= page.dom_id %>', '#commentsForm_<%= page.dom_id %>' )" >Add Rave</a></li>
+    </ul>
+    <div>
+      <% form_for :comment, :url => page_comments_path(page),
+                             :html => {:class => "commentsForm remoteForm#{params[:page]}",
+                                       :id => "commentsForm_#{page.dom_id}"} do |f| %>
+        <div class="commentErrorDisplay"></div>
+        <p>
+          <%= f.label :name, "Name" %>
+          <%= f.text_field :name %>
+        </p>
+        <p>
+          <%= f.label :email, "Email" %>
+          <%= f.text_field :email %>
+        </p>
+        <p>
+          <%= f.label :description, "Rave" %>
+          <%= f.text_area :description %>
+        </p>
+        <%= submit_tag "Post", :class => "postComment" %>
+      <% end %>
+    </div>
+
+    <div id="comments_container_<%= page.dom_id  %>" class="comments_container">
+      <% page.comments.each do |comment| %>
+        <%= render :partial => "pages/comment", :locals => {:comment => comment} %>
+      <% end %>
+      <% if page.comments.count == 0 %>
+        <div class="comment"><p>You will be the first one to add rave to this image + music haiku </p></div>
+      <% end %>
+    </div>
+  </div>
+  <div class="post">
+    <ul class="clearfix" >
+      <li class="colL"><h2 class="pagePublishedOn"><%= format_date(page.published_on) %></h2></li>
+      <li class="colR"><a id="page_haiku_excol<%= page.id %>" class="uiIcons excol haikuExCol<%= params[:page]%>" title="collapse/expand the haiku" rel="page_haiku_<%= page.id %>" ><span>c/x</span></a></li>
+    </ul>
+    <h2 class="pageTitle"><%= page.title%></h2>
+    <div class="innerPost">
+      <div id="page_haiku_<%= page.id %>" class="haiku">
+        <p><%= page.description %></p>
+      </div>
+      <div class="credits">
+        <p>Image by: <%= page.image_credits%></p>
+        <p>Shot taken in <%= page.image_taken_in%></p>
+        <p>Misic by: <%= page.music_credits%></p>
+      </div>
+    </div>
+      <div id="audioPlayer" class="audioPlayer">
+        <div id="audioPlayerContainer">
+          <div class="audioPlayer">
+          <object type="application/x-shockwave-flash" data="/player.swf" id="audioplayer<%= page.id %>" height="24" width="290">
+            <param name="movie" value="/player.swf">
+            <param name="FlashVars" value="playerID=<%= page.id  %>&amp;bg=#000000&amp;loop=true&amp;soundFile=http:<%= page.music.url %>">
+            <param name="quality" value="high">
+            <param name="menu" value="false">
+            <param name="wmode" value="transparent">
+          </object> 
+          </div>
+        </div>
+     </div>
+  </div>
+  </div>
+<% end %>
+<script type="text/javascript">
+  $('.haikuExCol<%= params[:page] %>').each( function(i){
+    $(this).link_to_colex( "#" + $(this).attr("rel") , {excol_class: "colex", colex_class: "excol" } );
+  });
+  
+  $('.commentsExCol<%= params[:page] %>').each( function(i){
+    $(this).link_to_colex( "#" + $(this).attr("rel") , {excol_class: "colex", colex_class: "excol" } );
+  });
+
+  $('.remoteForm<%= params[:page] %>').each( function(i){
+    $(this).remote_form();
+  });
+</script>

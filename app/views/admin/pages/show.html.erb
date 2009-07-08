@@ -1,4 +1,59 @@
 <%= render :partial => 'admin/shared/main_nav' %>
-<div class="grid_6 prefix_10">
-  <h1><%= @page.title %></h1>
+<div class="grid_12 centerize">
+  <div class="grid_3">
+    <h1><%= @page.title %></h1>
+    <%= image_tag @page.image.url(:thumb) %>
+    
+    <h2 class="pageTitle"><%=format_date(@page.published_on) %></h2>
+    <div class="innerPost">
+      <div id="page_haiku_<%= @page.id %>" class="haiku">
+        <p><%= @page.description %></p>
+      </div>
+      <div class="credits">
+        <p>Image by: <%= @page.image_credits%></p>
+        <p>Shot taken in <%= @page.image_taken_in%></p>
+        <p>Misic by: <%= @page.music_credits%></p>
+      </div>
+    </div>
+    <div class="audioPlayer">
+      <object type="application/x-shockwave-flash" data="/player.swf" id="audioplayer<%= @page.id %>" height="24" width="290">
+        <param name="movie" value="/player.swf">
+        <param name="FlashVars" value="playerID=<%= @page.id  %>&amp;bg=#000000&amp;loop=true&amp;soundFile=http:<%= @page.music.url %>">
+        <param name="quality" value="high">
+        <param name="menu" value="false">
+        <param name="wmode" value="transparent">
+      </object> 
+    </div>
+  </div>
+  <div class="grid_9">
+    <h2>Comments</h2>
+      <table>
+        <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Description</th>
+          <th>Date</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% if @page.comments.empty? %>
+        <tr>
+          <td colspan="4">No comments yet</td>
+        </tr>
+        <% end %>
+        <% @page.comments.each do |comment| %>
+        <tr>
+          <td><%= h(comment.name) %></td>
+          <td><%= comment.email%></td>
+          <td><%= h(escape_javascript(comment.description)) %></td>
+          <td><%= format_date(comment.created_at) %></td>
+          <td><%= link_to "Spam", "#"%> | <%= link_to "Delete", "#"%></td>
+        </tr>
+        <% end %>
+        </tbody>
+      </table>
+</div>
+
 </div>

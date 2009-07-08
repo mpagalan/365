@@ -12,12 +12,16 @@
 ActiveRecord::Schema.define(:version => 20090701100306) do
 
   create_table "comments", :force => true do |t|
-    t.integer "page_id"
-    t.string  "name"
-    t.string  "email"
-    t.text    "description"
-    t.boolean "is_spam",     :default => false
+    t.integer  "page_id"
+    t.string   "name"
+    t.string   "email"
+    t.text     "description"
+    t.boolean  "is_spam",     :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
+
+  add_index "comments", ["created_at", "is_spam", "page_id"], :name => "page_comemnts"
 
   create_table "pages", :force => true do |t|
     t.string   "title"

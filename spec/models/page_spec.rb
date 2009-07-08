@@ -1,10 +1,13 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-
-
-describe Page do
+describe "Page in general", :shared => true do
   include ImageHelper
   include MusicHelper
+end
+
+describe Page do
+  it_should_behave_like "Page in general"
+
   before(:each) do
      Page.create(:title => "shot", :published_on => 20.day.ago, :image =>image)
   end
@@ -12,6 +15,18 @@ describe Page do
   it { should validate_presence_of(:title) }
   it { should validate_presence_of(:published_on)}
   it { should validate_uniqueness_of(:published_on)}
+  it { should have_many(:comments)}
+  it "should have comments ordered on date post in DESC order" do
+    new_page = Page.new()
+    comments_options = {:order => "created_at DESC"}
+    Page.reflect_on_association(:comments).options[:order].should == comments_options[:order]
+  end
+
+  it "should have dom_id method that will return unique id every_time" do
+    page_1 = Page.new()
+    page_2 = Page.new()
+    page_1.dom_id.should_not == page_2.dom_id
+  end
   
   it "should not create without any value" do
     Page.new.save.should be_false
@@ -49,14 +64,10 @@ describe Page do
     Page.new(:title => "vibes", :published_on => 1.day.ago, :image => image, :music => text_file).save.should be_false
   end
   
-  it "should have a latest named_scope, with the correct options" do
-    expected_options = {:order => "published_on DESC", :limit => 5}
-    expected_options.should == Page.latest.proxy_options
-  end
 end
 
 describe Page, "with image" do
-  include ImageHelper
+  it_should_behave_like "Page in general"
   
   before(:each) do
     @test_page = Page.new(:title => "shot", :published_on => 1.day.ago, :image => image)
@@ -79,8 +90,7 @@ describe Page, "with image" do
 end
 
 describe Page, "with music" do
-  include MusicHelper
-  include ImageHelper
+  it_should_behave_like "Page in general"
 
   before(:each) do
     @test_page = Page.new(:title => "shot", :published_on => 1.day.ago, :image => image, :music => music)
@@ -108,5 +118,19 @@ describe Page, "with music" do
   it "should have a state" do
     @test_page.current_state.should_not == :pending
     @test_page.current_state.should_not == :error
+  end
+end
+
+describe Page, "on creating comment" do
+  it_should_behave_like "Page in general"
+
+  before(:each) do
+    @test_page = Page.create(:title => "shot", :published_on => 1.day.ago, :image => image, :music => music)
+  end
+
+  it "should save the comment on the page" do
+    lambda do
+      @test_page.comments.create(:name => "blagger", :email => "blogger@test.com", :description => "wooot nice shot")
+    end.should change(Comment, :count).by(1)
   end
 end

@@ -3,7 +3,10 @@ class Page < ActiveRecord::Base
   # named scopes
   # ----------------------------------------------------
   default_scope :order => "published_on DESC"
-  named_scope :latest, :order => "published_on DESC", :limit => 5
+  # ----------------------------------------------------
+  # associations
+  # ----------------------------------------------------
+  has_many :comments, :order => "created_at DESC"
   # ----------------------------------------------------
   # plugins
   # ----------------------------------------------------
@@ -40,8 +43,8 @@ class Page < ActiveRecord::Base
   # virtual attributes
   # --------------------------------------------------
   cattr_reader :per_page
+  attr_reader  :dom_id, :converted_music_path
   @@per_page = 5
-  attr :converted_music_path
   
   # ----------------------------------------------------
   # validations
@@ -68,6 +71,10 @@ class Page < ActiveRecord::Base
       self.failed!
       flush_failed_flv_delete
     end
+  end
+  
+  def dom_id
+   return "#{self.id || rand(100)}-#{created_or_now.strftime('%Y%m%d%s')}"
   end
 
   protected
@@ -100,5 +107,10 @@ class Page < ActiveRecord::Base
   # NB: this method is used to update the music_file_name with the converted flv file
   def set_new_filename
     update_attribute(:music_file_name, "converted_#{music.basename}.mp3")
+  end
+
+  private
+  def created_or_now
+    self.created_at || Time.now
   end
 end

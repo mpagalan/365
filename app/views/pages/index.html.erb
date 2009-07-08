@@ -2,11 +2,6 @@
   <a class="uiIcons navUp" onclick="imageScroller.moveUp(true)" title="view next image"><span>Up</span></a>
   <a class="uiIcons navDown" onclick="imageScroller.moveDown(true)" title="view previous image"><span>Do</span></a>
   <a onclick="imageScroller.showDefault(false)" >365 a daily image + music haiku </a>
-  <div class="centerize calendar">
-  </div>
-  <ul class="clearfix">
-    <li class="colR"><a id="calendar_colex" class="uiIcons colex" title="collapse/expand calendar navigation"><span>c/x</span></a></li>
-  </ul>
 </div>
 
 <!-- Start of Pages -->
@@ -53,8 +48,4 @@
     refigure();
     imageScroller.move();
   });
-  
-  $('#calendar_colex').link_to_colex("#datepicker");
-  $('.haiku_colex').link_to_colex(".haiku", {excol_class: "colex", colex_class: "excol" } );
-
 <% end %>

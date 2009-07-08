@@ -1,0 +1,2 @@
+$("#commentsForm_<%= current_page.dom_id %> > div.commentErrorDisplay")
+  .html("<%= escape_javascript(error_messages_for(:comment, :object_name => "Rave", :header_tag => "h3", :message => nil )) %>");

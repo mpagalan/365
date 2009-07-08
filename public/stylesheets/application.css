@@ -8,7 +8,7 @@ body {
   font-size: 11px;
   font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
   overflow: hidden;
-  background: #fff;
+  background: #000;
 }
 object {
   outline-style: none;
@@ -19,8 +19,8 @@ object {
   top: 0px;
   right: 0px;
   opacity: 0.7;
-  position: hidden;
-  z-index: 9000;
+  position: absolute;
+  z-index: 9900;
 }
 #main_overlay div {
   margin-left:auto !important;
@@ -44,7 +44,8 @@ h2{ font-size: 18px;}
   position: relative;
   left: 0;
   top: 0;
-  z-index: 50000;
+  z-index: 5000;
+  background: #000;
 }
 .fullimage  { position: relative; }
 .bg {
@@ -83,9 +84,6 @@ h2{ font-size: 18px;}
   font-size: 11px;
   line-height: 1.8em;
 }
-.calendar {
-  width: 200px;
-}
 .audioPlayer {
   background-color:#000000;
   background-image:none;
@@ -97,6 +95,54 @@ h2{ font-size: 18px;}
   padding-top:2px;
   min-width:50px;
 }
+.comments {
+  /*-moz-border-radius-bottomright:5px;*/
+  -moz-border-radius-topright:5px;
+  background: #000000 none repeat scroll 0 0;
+  top: 10px;
+  left: 0px;
+  opacity: 0.5;
+  padding-bottom: 5px;
+  padding-left: 15px;
+  padding-right: 5px;
+  padding-top: 5px;
+  position: absolute;
+  width: 405px;
+  z-index: 6000;
+}
+.commentsToolbar li{ margin-right: 5px;}
+.addComments {cursor: pointer;}
+.comments_container { display: none; }
+.comment {
+  -moz-border-radius-bottomright:4px;
+  -moz-border-radius-topright:4px;
+  background: #000000 none repeat scroll 0 0;
+  margin-top: 3px;
+  padding: 1px;
+  border-color: #888888;
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+  border-style: solid;
+  width: 390px;
+}
+.commentsForm { margin-top: 1%; display: none;}
+.commentsForm input, .commentsForm textarea {
+  border: 1px solid #BDC7D8;
+  font-size: 11px;
+  padding: 1px;
+  width: 350px;
+}
+.commentsForm input.postComment { margin-left: 10%; width: 10%; }
+.commentsForm textarea { height: 90px }
+.commentsForm p { margin-bottom: 1%;}
+.commentsForm p label {
+  float: left;
+  width: 7%;
+  text-align: left;
+  margin-right: 3%;
+}
+.commentErrorDisplay { margin-bottom: 1%;}
+.errorExplanation li { font-style: italic; }
 
 /* common styles */
 .uiIcons {
@@ -108,12 +154,14 @@ h2{ font-size: 18px;}
   visibility: hidden;
 }
 .colex {
-  background-position: -98px -194px;
+  background-position: -97px -194px;
   position: relative;
+  cursor: pointer;
 }
 .excol {
-  background-position: -66px -194px;
+  background-position: -65px -194px;
   position: relative;
+  cursor: pointer;
 }
 .colL { float: left !important;}
 .colR { float: right !important;}

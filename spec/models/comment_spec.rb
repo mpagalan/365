@@ -8,7 +8,8 @@ describe Comment do
   it { should validate_presence_of(:email)}
   it { should validate_presence_of(:description)}
   it { should validate_presence_of(:page_id)}
-  
+  it { should belong_to(:page)}
+
   it "should not create without any value" do
     Comment.new.save.should be_false
   end

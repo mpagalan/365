@@ -14,8 +14,15 @@
   };
 
   $.fn.link_to_colex.default_options = { excol_class: 'excol', colex_class: 'colex',  toggle_speed: 450 }
-
   
+  // an extension to create remote form(s)
+  $.fn.remote_form = function() {
+    $(this).submit(function(){
+      $.post($(this).attr("action"), $(this).serialize(), null, "script");
+      return false;
+    });
+  };
+
   $.show_loader = function(){
     var settings = $.show_loader.defaults;
     var height = $(window).height();
@@ -71,7 +78,7 @@ function mainScroller(scrollable, pages, url){
   this.move       = scrollerMove;
   this.showDefault = scrollerShowDefault;
   this.effects       = { easing: 'easeOutCirc', axis: 'y' };
-  this.effects_speed = 1000;
+  this.effects_speed = 800;
   this.$current  = "";
   this.$previous = "";
   this.haiku_div = $('div.innerPost div.haiku');
@@ -97,7 +104,9 @@ function mainScroller(scrollable, pages, url){
       current = this.$current.next(":not('#default_image')").eq(0);
       
       if (current.attr("class") != "fullimage"){
-        if (!load_next_page(this.url, this)){
+        if (load_next_page(this.url, this)){
+          current = [];
+        }else{
           current = $("div.fullimage:not('#default_image'):first").eq(0);
         }
       }
@@ -152,6 +161,8 @@ function mainScroller(scrollable, pages, url){
       current_page++;
       $.get(url, {page: current_page}, function(){
           scroller.moveDown(true);
+          $.hide_loader();
+          console.log("mvng nxt page")
         }, "script");
       return true
     }else{
@@ -161,3 +172,17 @@ function mainScroller(scrollable, pages, url){
 
 }
 
+function toggleRaveForm(linkSelector, commentsForm){
+  var showText = "Add Rave";
+  var hideText = "Close Rave Form";
+  this.toggle_speed = 900;
+  this.$linkSelector = $(linkSelector);
+  this.$commentsForm = $(commentsForm);
+  
+  this.$commentsForm.slideToggle(this.toggle_speed);
+  if (this.$linkSelector.text() == showText ){
+    this.$linkSelector.text(hideText);
+  }else {
+    this.$linkSelector.text(showText);
+  }
+}

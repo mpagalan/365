@@ -33,7 +33,11 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :pages
   end
   
-  map.root :controller => "homepage"
+  map.resources :pages, :only => [:index] do |pages|
+    pages.resources :comments, :only => [:index, :create]
+  end
+
+  map.root :controller => "pages"
   
   # Install the default routes as the lowest priority.
   # Note: These default routes make all actions in every controller accessible via GET requests. You should

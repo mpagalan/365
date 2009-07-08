@@ -5,7 +5,9 @@ class CreateComments < ActiveRecord::Migration
       t.string  :name, :email
       t.text    :description
       t.boolean :is_spam,  :default => false
+      t.timestamps
     end
+    add_index :comments, [:page_id, :created_at, :is_spam], :name => "page_comemnts"
   end
 
   def self.down

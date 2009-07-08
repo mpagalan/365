@@ -1,4 +1,4 @@
-class HomepageController < ApplicationController
+class PagesController < ApplicationController
 #  caches_page :index
   cache_sweeper :page_sweeper, :only => [:index]
   

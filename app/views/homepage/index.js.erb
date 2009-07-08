@@ -1,4 +1,0 @@
-$("div.fullimage:not('#default_image'):last").after("<%= escape_javascript(render(:partial => 'pages_image', :locals => {:pages => @pages})) %>");
-$(window).ready(function(){
-  refigure();
-});
