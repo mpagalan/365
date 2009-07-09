@@ -1,7 +1,9 @@
 class CommentsController < ApplicationController
+  cache_sweeper PageSweeper, :only => [:create]
   
   before_filter :set_current_page, :only => [:index, :create]
   helper_method :current_page
+
   def index
     @comments = current_page.comments
 

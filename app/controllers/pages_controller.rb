@@ -1,9 +1,8 @@
 class PagesController < ApplicationController
-#  caches_page :index
-  cache_sweeper :page_sweeper, :only => [:index]
+  cache_sweeper PageSweeper, :only => [:index]
   
   def index
-    @pages = Page.paginate(:page => params[:page])
+    @pages = Page.paginate(:page => params[:page], :include => :comments)
 
     respond_to do |format|
       format.html #render .html template

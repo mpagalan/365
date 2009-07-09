@@ -1,43 +1,51 @@
 <% pages.each do |page| %>
+  
   <div id="page_image_<%= page.id %>" class="fullimage">
 
-    <%= image_tag page.image.url, :class => "bg" %>
-  <div class="comments">
-    <ul class="clearfix commentsToolbar">
-      <li class="colL raveCount"><h3>Raves / 0</h3></li>
-      <li class="colR clearfix"><a id="comments_colex_<%= page.id %>" rel="comments_container_<%= page.dom_id %>" class="uiIcons excol commentsExCol<%= params[:page]%>" title="collapse/expand comments"><span>c/x</span></a></li>
-      <li class="colR"><a id="addComments_<%= page.dom_id %>" class="addComments" onclick="toggleRaveForm('#addComments_<%= page.dom_id %>', '#commentsForm_<%= page.dom_id %>' )" >Add Rave</a></li>
-    </ul>
-    <div>
-      <% form_for :comment, :url => page_comments_path(page),
-                             :html => {:class => "commentsForm remoteForm#{params[:page]}",
-                                       :id => "commentsForm_#{page.dom_id}"} do |f| %>
-        <div class="commentErrorDisplay"></div>
-        <p>
-          <%= f.label :name, "Name" %>
-          <%= f.text_field :name %>
-        </p>
-        <p>
-          <%= f.label :email, "Email" %>
-          <%= f.text_field :email %>
-        </p>
-        <p>
-          <%= f.label :description, "Rave" %>
-          <%= f.text_area :description %>
-        </p>
-        <%= submit_tag "Post", :class => "postComment" %>
-      <% end %>
-    </div>
+  <!-- Start of Page comments -->
+  <% cache (:controller => "pages", :action => "index", :page_id => page.id, :on => "comments") do %>
+    <div class="comments">
+      <ul class="clearfix commentsToolbar">
+        <li class="colL raveCount"><h3>Raves / <%= page.comments.count%></h3></li>
+        <li class="colR clearfix"><a id="comments_colex_<%= page.id %>" rel="comments_container_<%= page.dom_id %>" class="uiIcons excol commentsExCol<%= params[:page]%>" title="collapse/expand comments"><span>c/x</span></a></li>
+        <li class="colR"><a id="addComments_<%= page.dom_id %>" class="addComments" onclick="toggleRaveForm('#addComments_<%= page.dom_id %>', '#commentsForm_<%= page.dom_id %>' )" >Add Rave</a></li>
+      </ul>
+      <div>
+        <% form_for :comment, :url => page_comments_path(page),
+                               :html => {:class => "commentsForm remoteForm#{params[:page]}",
+                                         :id => "commentsForm_#{page.dom_id}"} do |f| %>
+          <div class="commentErrorDisplay"></div>
+          <p>
+            <%= f.label :name, "Name" %>
+            <%= f.text_field :name %>
+          </p>
+          <p>
+            <%= f.label :email, "Email" %>
+            <%= f.text_field :email %>
+          </p>
+          <p>
+            <%= f.label :description, "Rave" %>
+            <%= f.text_area :description %>
+          </p>
+          <%= submit_tag "Post", :class => "postComment" %>
+        <% end %>
+      </div>
 
-    <div id="comments_container_<%= page.dom_id  %>" class="comments_container">
-      <% page.comments.each do |comment| %>
-        <%= render :partial => "pages/comment", :locals => {:comment => comment} %>
-      <% end %>
-      <% if page.comments.count == 0 %>
-        <div class="comment"><p>You will be the first one to add rave to this image + music haiku </p></div>
-      <% end %>
+      <div id="comments_container_<%= page.dom_id  %>" class="comments_container">
+        <% page.comments.each do |comment| %>
+          <%= render :partial => "pages/comment", :locals => {:comment => comment} %>
+        <% end %>
+        <% if page.comments.count == 0 %>
+          <div class="comment"><p>You will be the first one to add rave to this image + music haiku </p></div>
+        <% end %>
+      </div>
     </div>
-  </div>
+  <% end %>
+  <!-- End of Page Comments -->
+
+  <!-- Start of Page Meta INFO or Post -->
+  <% cache (:controller => "pages", :action => "index", :page_id => page.id) do %>
+  <%= image_tag page.image.url, :class => "bg" %>
   <div class="post">
     <ul class="clearfix" >
       <li class="colL"><h2 class="pagePublishedOn"><%= format_date(page.published_on) %></h2></li>
@@ -68,6 +76,8 @@
         </div>
      </div>
   </div>
+  <% end %>
+  <!-- End of Page Meta INFO or Post -->
   </div>
 <% end %>
 <script type="text/javascript">

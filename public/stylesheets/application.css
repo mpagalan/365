@@ -112,7 +112,11 @@ h2{ font-size: 18px;}
 }
 .commentsToolbar li{ margin-right: 5px;}
 .addComments {cursor: pointer;}
-.comments_container { display: none; }
+.comments_container { 
+  display: none;
+  max-height: 150px;
+  overflow: hidden;
+  }
 .comment {
   -moz-border-radius-bottomright:4px;
   -moz-border-radius-topright:4px;

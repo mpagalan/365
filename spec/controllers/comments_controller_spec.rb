@@ -18,7 +18,7 @@ describe "CommentsController in general", :shared => true do
   before(:each) do
     @mock_page = mock_model(Page)
     @mock_comment = mock_model(Comment)
-    Page.stub(:find).with("7").and_return(@mock_page)
+    Page.stub!(:find).with("7", :include => :comments).and_return(@mock_page)
     @mock_comments_proxy = [@mock_comment]
     @mock_page.stub(:comments).and_return(@mock_comments_proxy)
   end
