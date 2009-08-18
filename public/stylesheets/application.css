@@ -23,8 +23,12 @@ object {
   z-index: 9900;
 }
 #main_overlay div {
-  margin-left:auto !important;
-  margin-right:auto !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  float: left;
+  left: 50%;
+  position: relative;
+  top: 50%;
 }
 
 /* =Headings

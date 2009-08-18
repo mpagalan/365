@@ -5,3 +5,10 @@ FFMPEG Installation:
 Audio Player
  - an mp3 player for browser
  * http://www.macloo.com/examples/audio_player/
+ form_tag
+
+jQuery
+ *http://jquery.com/
+ *http://jqueryui.com/
+  - includes [draggable , datepicker]
+

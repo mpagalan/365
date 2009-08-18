@@ -16,7 +16,8 @@ class PageSweeper < ActionController::Caching::Sweeper
     when Page
       expire_page_caches(record.id)
     when Comment
-      expire_page(:controller => 'pages', :action => 'index', :page_id => record.page_id, :on => "comments")
+      expire_page(:controller => 'pages', :action => 'index', :page_id => record.page_id, :on => "comments_count")
+      expire_page(:controller => 'pages', :action => 'index', :page_id => record.page_id, :on => "comments_list")
     end
   end
 

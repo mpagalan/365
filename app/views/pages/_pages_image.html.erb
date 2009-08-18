@@ -3,13 +3,14 @@
   <div id="page_image_<%= page.id %>" class="fullimage">
 
   <!-- Start of Page comments -->
-  <% cache (:controller => "pages", :action => "index", :page_id => page.id, :on => "comments") do %>
     <div class="comments">
+      <% cache (:controller => "pages", :action => "index", :page_id => page.id, :on => "comments_count") do %>
       <ul class="clearfix commentsToolbar">
         <li class="colL raveCount"><h3>Raves / <%= page.comments.count%></h3></li>
         <li class="colR clearfix"><a id="comments_colex_<%= page.id %>" rel="comments_container_<%= page.dom_id %>" class="uiIcons excol commentsExCol<%= params[:page]%>" title="collapse/expand comments"><span>c/x</span></a></li>
         <li class="colR"><a id="addComments_<%= page.dom_id %>" class="addComments" onclick="toggleRaveForm('#addComments_<%= page.dom_id %>', '#commentsForm_<%= page.dom_id %>' )" >Add Rave</a></li>
       </ul>
+      <% end %>
       <div>
         <% form_for :comment, :url => page_comments_path(page),
                                :html => {:class => "commentsForm remoteForm#{params[:page]}",
@@ -31,16 +32,19 @@
         <% end %>
       </div>
 
-      <div id="comments_container_<%= page.dom_id  %>" class="comments_container">
-        <% page.comments.each do |comment| %>
-          <%= render :partial => "pages/comment", :locals => {:comment => comment} %>
-        <% end %>
-        <% if page.comments.count == 0 %>
-          <div class="comment"><p>You will be the first one to add rave to this image + music haiku </p></div>
-        <% end %>
+      <% cache (:controller => "pages", :action => "index", :page_id => page.id, :on => "comments_list") do %>
+      <div>
+        <div id="comments_container_<%= page.dom_id  %>" class="comments_container comContnr<%= params[page]%>">
+          <% page.comments.each do |comment| %>
+            <%= render :partial => "pages/comment", :locals => {:comment => comment} %>
+          <% end %>
+          <% if page.comments.count == 0 %>
+            <div class="comment"><p>You will be the first one to add rave to this image + music haiku </p></div>
+          <% end %>
+        </div>
       </div>
+      <% end %>
     </div>
-  <% end %>
   <!-- End of Page Comments -->
 
   <!-- Start of Page Meta INFO or Post -->
