@@ -1,6 +1,11 @@
 class Admin::PagesController < ApplicationController
   layout "admin"
 
+  # --------------------------------------------------------------
+  # filters
+  # --------------------------------------------------------------
+  before_filter :require_user
+
   def index
     @pages = Page.find(:all)
   end

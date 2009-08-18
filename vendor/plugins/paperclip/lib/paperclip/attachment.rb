@@ -114,6 +114,10 @@ module Paperclip
       url(style)
     end
 
+    def basename
+      original_filename.nil? ? nil : original_filename.gsub(/#{File.extname(original_filename)}$/, "")
+    end
+
     # Returns true if there are no errors on this attachment.
     def valid?
       validate

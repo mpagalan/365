@@ -15,7 +15,7 @@ config.action_controller.perform_caching             = true
 
 # Don't care if the mailer can't send
 config.action_mailer.raise_delivery_errors = false
-config.cache_store = :file_store, "#{RAILS_ROOT}/tmp/cache/"
+config.cache_store = :file_store, "#{RAILS_ROOT}/public/cache/"
 
 class ActiveRecord::Base
   def self.dump_schema
