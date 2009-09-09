@@ -12,15 +12,18 @@ class Page < ActiveRecord::Base
   # ----------------------------------------------------
   has_attached_file :image, :styles => {
                               :fullimage => "x1024",
+                              :midimage => "x800",
                               :thumb => "150x150>"
                             },
                             :whiny_thumbnails => true,
                             :default_style => :fullimage,
                             :path => ":rails_root/public/:rails_env/:class/:attachment/:id/:style_:basename.:extension",
-                            :url => "/:rails_env/:class/:attachment/:id/:style_:basename.:extension"
+                            :url => "/:rails_env/:class/:attachment/:id/:style_:basename.:extension",
+                            :storage => :s3
   
   has_attached_file :music, :path => ":rails_root/public/:rails_env/:class/:attachment/:id/:basename.:extension",
-                            :url => "/:rails_env/:class/:attachment/:id/:basename.:extension"
+                            :url => "/:rails_env/:class/:attachment/:id/:basename.:extension",
+                            :storage => :s3
   
   acts_as_state_machine :initial => :pending, :column => :music_state
   state :pending
@@ -58,9 +61,24 @@ class Page < ActiveRecord::Base
   # ---------------------------------------------------
   # callbacks
   # ---------------------------------------------------
-  after_create :convert
+  #after_create :convert
 
+  # ---------------------------------------------------
+  # class methods
+  # ---------------------------------------------------
+  def self.convert(from_file, to_file)
+    system(ffmpeg_command(from_file, to_file))
+  end
+  
+  def self.ffmpeg_command(from_file, to_file)
+    command = <<-end_command
+      ffmpeg -i #{from_file} -ar 11025 -ab 32  -f mp3 -y #{to_file}
+    end_command
+  end
 
+  # ---------------------------------------------------
+  # instance methods
+  # ---------------------------------------------------
   def convert
     return if music.original_filename.nil? || !music.valid?
     self.convert!
@@ -84,9 +102,7 @@ class Page < ActiveRecord::Base
     @converted_music_path = File.join(File.dirname(music.path), "converted_#{music.basename}.mp3")
     File.open(converted_music_path, 'w')
     unless RAILS_ENV == "test"
-      command = <<-end_command
-        ffmpeg -i #{music.path} -ar 11025 -ab 32  -f mp3 -y #{converted_music_path}
-      end_command
+      Page.ffmpeg_command(music.path, converted_music_path)
     else
       command = "echo ok"
     end

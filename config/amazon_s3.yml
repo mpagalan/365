@@ -1,0 +1,20 @@
+access_details: &access_details
+  access_key_id: 0MSK4YQNBB7EW95W6KR2
+  secret_access_key: WWKFTv0PbefxEDjN73Cdcxgg7FLZYoS232SgVAj1  
+
+development:
+  bucket_name: den_development
+  <<: *access_details
+
+test:
+  bucket_name: den_test
+  <<: *access_details
+
+production:
+  bucket_name: den_development
+  <<: *access_details
+
+
+
+
+  
