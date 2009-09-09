@@ -42,7 +42,7 @@ h2{ font-size: 18px;}
   margin-right:auto !important;
   display:block;
 }
-#mainContainer { overflow: hidden; visibility: hidden; z-index: 50000;}
+#mainContainer { overflow: hidden; visibility: visible; z-index: 50000;}
 #pages { 
   overflow:hidden;
   position: relative;
@@ -51,6 +51,7 @@ h2{ font-size: 18px;}
   z-index: 5000;
   background: #000;
 }
+
 .fullimage  { position: relative; }
 .bg {
   left: 0;

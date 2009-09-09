@@ -52,9 +52,9 @@ $().ajaxStart($.show_loader).ajaxStop($.hide_loader);
 
 // window related events
 $(window).load(function(){
-  $('#mainContainer').css('visibility', 'visible');
+  //$('#mainContainer').css('visibility', 'visible');
   $('#audioPlayer').show();
-  $.hide_loader();
+  //$.hide_loader();
 });
 
 function refigure() {

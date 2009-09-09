@@ -1,51 +1,119 @@
-<div id="navigation">
-  <a class="uiIcons navUp" onclick="imageScroller.moveUp(true)" title="view next image"><span>Up</span></a>
-  <a class="uiIcons navDown" onclick="imageScroller.moveDown(true)" title="view previous image"><span>Do</span></a>
-  <a onclick="imageScroller.showDefault(false)" >365 a daily image + music haiku </a>
+<% content_for :js do %>
+  <%= javascript_include_tag "jquery.galleriffic" %>
+<% end %>
+<% content_for :css do %>
+  <%= stylesheet_link_tag "galleriffic" %>
+<% end %>
+
+      <!-- Start Advanced Gallery Html Containers -->
+
+
+
+<div id="thumbs">
+  <ul class="thumbs noscript">
+  <% @pages.each do |page| %>
+    <% cache (:controller => "pages", :action => "index", :page_id => page.id) do %>
+    <li>
+        <%= link_to  image_tag(page.image.url(:thumb), :alt => page.title ), page.image.url(:fullimage), :title => page.title, :class => "thumb" %>
+        <div class="caption post">
+          <h2 class="pageTitle"><%= page.title%></h2>
+          <div class="innerPost">
+            <div id="page_haiku_<%= page.id %>" class="haiku">
+              <p><%= page.description %></p>
+            </div>
+            <div class="credits">
+              <p>Image by: <%= page.image_credits%></p>
+              <p>Shot taken in <%= page.image_taken_in%></p>
+              <p>Misic by: <%= page.music_credits%></p>
+            </div>
+          </div>
+            <div id="audioPlayer" class="audioPlayer">
+              <div id="audioPlayerContainer">
+                <div class="audioPlayer">
+                <object type="application/x-shockwave-flash" data="/player.swf" id="audioplayer<%= page.id %>" height="24" width="290">
+                  <param name="movie" value="/player.swf">
+                  <param name="FlashVars" value="playerID=<%= page.id  %>&amp;bg=#000000&amp;loop=true&amp;soundFile=http:<%= page.music.url %>">
+                  <param name="quality" value="high">
+                  <param name="menu" value="false">
+                  <param name="wmode" value="transparent">
+                </object> 
+                </div>
+              </div>
+           </div>
+        </div>
+    </li>
+    <% end %>
+  <% end %>
+  </ul>
 </div>
 
-<!-- Start of Pages -->
-<div id="pages">
-  <%= render :partial => 'pages_image', :locals => {:pages => @pages } %>
-
-  <div id="default_image" class="fullimage <%= @pages.empty? ? "" : "hidden"  %>" data-mp3="/converted_good.mp3" data-title="365" data-published-on="June 11, 2009">
-    <img class="bg" src="images/365.jpg" >
-    
-    <div class="post">
-      <ul class="clearfix" >
-        <li class="colL"><h2 class="pagePublishedOn">June 11, 2009</h2></li>
-        <li class="colR"><a class="uiIcons excol haiku_colex" title="collapse/expand the haiku" ><span>c/x</span></a></li>
-      </ul>
-      <h2 class="pageTitle">365</h2>
-      <div class="innerPost">
-        <div class="haiku">
-          <p><i>Image</i> (from Latin imago) is an artifact,
-              or has to do with a two-dimensional (a picture),
-              that has a similar appearance to some subject—usually a physical object or a person.</p>
-          <br/>
-          <p><i>Music</i> is an art form whose medium is sound organized in time</p>
-        </div>
-        <div class="credits">
-          <p>Image by: </p>
-          <p>Shot taken in </p>
-          <p>Misic by: </p>
-        </div>
-      </div>
-    </div>
-  </div>
+<div id="gallery" class="content">
+  <div id="controls" class="controls"></div>
+  <div id="loading" class="loader"></div>
+  <div id="slideshow" class="slideshow pages"></div>
+  <div id="caption"></div>
 </div>
-<!-- End of Pages -->
+
 
 <% javascript_tag do %>
-  var imageScroller = new mainScroller($('#pages'), <%= total_pages_of_page(@pages) %>, "<%= root_path %>");
-  imageScroller.initialize();
+// We only want these styles applied when javascript is enabled
+    $('div.navigation').css({'width' : '300px', 'float' : 'left'});
+    $('div.content').css('display', 'block');
 
-  $(window).ready(function(){
-    refigure();
-  });
+    // Initially set opacity on thumbs and add
+    // additional styling for hover effect on thumbs
+    var onMouseOutOpacity = 0.67;
+    $('#thumbs ul.thumbs li').css('opacity', onMouseOutOpacity)
+      .hover(
+        function () {
+          $(this).not('.selected').fadeTo('fast', 1.0);
+        }, 
+        function () {
+          $(this).not('.selected').fadeTo('fast', onMouseOutOpacity);
+        }
+      );
 
-  $(window).resize( function (){
-    refigure();
-    imageScroller.move();
-  });
+$(document).ready(function() {
+  var galleryAdv = $('#gallery').galleriffic('#thumbs', {
+        delay:                  2000,
+        numThumbs:              10,
+        preloadAhead:           10,
+        enableTopPager:         false,
+        enableBottomPager:      true,
+        imageContainerSel:      '#slideshow',
+        controlsContainerSel:   '#controls',
+        captionContainerSel:    '#caption',
+        loadingContainerSel:    '#loading',
+        renderSSControls:       true,
+        renderNavControls:      true,
+        playLinkText:           'Play Slideshow',
+        pauseLinkText:          'Pause Slideshow',
+        prevLinkText:           '&lsaquo; Previous Photo',
+        nextLinkText:           'Next Photo &rsaquo;',
+        nextPageLinkText:       'Next &rsaquo;',
+        prevPageLinkText:       '&lsaquo; Prev',
+        enableHistory:          true,
+        autoStart:              false,
+        onChange:               function(prevIndex, nextIndex) {
+          $('#thumbs ul.thumbs').children()
+            .eq(prevIndex).fadeTo('fast', onMouseOutOpacity).end()
+            .eq(nextIndex).fadeTo('fast', 1.0);
+        },
+        onTransitionOut:        function(callback) {
+          $('#caption').fadeTo('fast', 0.0);
+          $('#slideshow').fadeTo('fast', 0.0, callback);
+        },
+        onTransitionIn:         function() {
+          $('#slideshow').fadeTo('fast', 1.0);
+          $('#caption').fadeTo('fast', 1.0);
+        },
+        onPageTransitionOut:    function(callback) {
+          $('#thumbs ul.thumbs').fadeTo('fast', 0.0, callback);
+        },
+        onPageTransitionIn:     function() {
+          $('#thumbs ul.thumbs').fadeTo('fast', 1.0);
+        }
+      });
+
+});
 <% end %>

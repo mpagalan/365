@@ -8,8 +8,8 @@
   <title><%= page_title -%></title>
 
   <%= stylesheet_link_tag "960/reset", "ui.datepicker" , "application"%>
-  <%= javascript_include_tag "jquery-1.3.2.min", "jquery-ui-1.7.2.custom.min", "jquery.easing.1.3",  "jquery-scrollTo.min", "audio-player", "swfobject", "application" %>
   <%= yield :css %>
+  <%= javascript_include_tag "jquery-1.3.2.min", "jquery-ui-1.7.2.custom.min", "jquery.easing.1.3",  "jquery-scrollTo.min", "audio-player", "application" %>
   <%= yield :js %>
 
 </head>
@@ -17,13 +17,6 @@
     <div id="mainContainer">
     <%= yield %>
     </div>
-    <div id="main_overlay">
-      <div class="centerize"><img src="/images/ajax-loader.gif"</div>
-    </div>
-    <script type="text/javascript">
-      // we show the loader by defualt
-      $.show_loader();
-    </script>
 
     <script type="text/javascript">
       var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
